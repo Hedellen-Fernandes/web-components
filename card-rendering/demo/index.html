@@ -1,0 +1,50 @@
+<!doctype html>
+<html lang="en-GB">
+
+<head>
+  <meta charset="utf-8">
+  <style>
+    body {
+      background: #fafafa;
+    }
+
+    #demo {
+      display: flex;
+
+      align-items: start;
+      justify-content: space-between;
+
+      flex-wrap: wrap;
+    }
+  </style>
+</head>
+
+<body>
+  <div id="demo"></div>
+
+  <script type="module">
+    import { html, render } from 'lit-html';
+    import '../card-rendering.js';
+
+    fetch('https://gateway.marvel.com/v1/public/characters?ts=thesoer&apikey=001ac6c73378bbfff488a36141458af2&hash=72e5ed53d1398abb831c3ceec263f18b')
+      .then(data => data.json())
+      .then(async resp => {
+        let characters = resp.data.results;
+        let template = await characters.reduce((accumulator, currentValue) => {
+          return html`
+              ${accumulator}
+              <card-rendering .name=${currentValue.name} .description=${currentValue.description} .url=${currentValue.thumbnail.path + '.' + currentValue.thumbnail.extension}>
+                some more light-dom
+              </card-rendering>
+            `
+        }, '');
+
+        render(
+          template,
+          document.querySelector('#demo')
+        );
+      });
+  </script>
+</body>
+
+</html>
