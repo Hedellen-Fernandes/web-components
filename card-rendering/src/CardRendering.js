@@ -17,6 +17,10 @@ export class CardRendering extends LitElement {
         width: 300px;
       }
 
+      .card h4 b {
+        font-weight: 400;
+      }
+
       .card:hover {
         box-shadow: 0 8px 16px 0 rgba(0,0,0,0.2);
       }
